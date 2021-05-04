@@ -130,3 +130,5 @@ try:
     from .local_settings import *
 except ImportError:
     print("Looks like no local file. You must be on production")
+
+DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
