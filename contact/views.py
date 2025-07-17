@@ -37,9 +37,13 @@ def contact_view(request):
                 # ✅ Confirmation reply to user
                 confirmation_subject = "Thanks for contacting Maxim"
                 confirmation_body = (
-                    f"Hi {name},\n\nThanks for reaching out with the subject: '{subject}'. "
-                    "I'll get back to you soon.\n\n— Maxim's Bot"
+                    "Hi!\n\n"
+                    "Thanks for reaching out\n"
+                    "I will try to answer you ASAP!\n\n"
+                    "Best regards,\n"
+                    "Maxim's Bot"
                 )
+                
                 confirmation = EmailMessage(confirmation_subject, confirmation_body, to=[email])
                 confirmation.send()
 
