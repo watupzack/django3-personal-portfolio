@@ -22,10 +22,14 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = '+7k@x92(7q8x8)5@(w-z(egmcw@%i+j5+yo^c#nu-(#^j9on1i'
 
+RECAPTCHA_SITE_KEY = '6Le7yIUrAAAAAK-eZFQ3G0C0Xcqlz12lnh3EpSiN'
+RECAPTCHA_SECRET_KEY = '6Le7yIUrAAAAAFLV2TXd2k9Jq71i208bSOBxmQAR'
+
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
-
-ALLOWED_HOSTS = ['maxrezan.pythonanywhere.com']
+# DEBUG = False FOR DEPLOYMENT MAXIM 
+ALLOWED_HOSTS = ['maxrezan.pythonanywhere.com'] # FOR DEPLOYMENT MAXIM
+# ALLOWED_HOSTS = ['localhost', '127.0.0.1']  # Change this to your domain in production
 
 
 # Application definition
@@ -40,6 +44,7 @@ INSTALLED_APPS = [
 
     'blog',
     'portfolio',
+    'contact',
 ]
 
 MIDDLEWARE = [
@@ -65,6 +70,8 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'portfolio.my_context_processors.latest_cv',
+                'portfolio.my_context_processors.latest_portfolio'
             ],
         },
     },
@@ -132,3 +139,16 @@ except ImportError:
     print("Looks like no local file. You must be on production")
 
 DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
+
+########################################################################
+# EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend' TEST IN CONSOLE
+
+
+# For production, you would typically use an SMTP backend like this:
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = 'maxim.leonid.rezan@gmail.com'
+EMAIL_HOST_PASSWORD = 'lyia hujp odqg dwqj'
+DEFAULT_FROM_EMAIL = EMAIL_HOST_USER

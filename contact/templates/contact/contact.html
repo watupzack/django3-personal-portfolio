@@ -1,0 +1,150 @@
+{% extends 'portfolio/base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="row justify-content-center mt-5">
+  <div class="col-md-8">
+    <h2>Contact Me</h2>
+    <hr>
+
+    {% if error %}
+      <div class="alert alert-danger">{{ error }}</div>
+    {% endif %}
+
+    {% if messages %}
+      {% for message in messages %}
+        <div class="alert alert-success">{{ message }}</div>
+      {% endfor %}
+    {% endif %}
+
+    {% if form.non_field_errors %}
+      <div class="alert alert-danger">
+        {% for error in form.non_field_errors %}
+          <div>{{ error }}</div>
+        {% endfor %}
+      </div>
+    {% endif %} 
+    
+    <form id="contact-form" method="post" enctype="multipart/form-data" novalidate>
+      {% csrf_token %}
+      {% for field in form %}
+        <div class="form-group">
+          {{ field.label_tag }}
+          {% if field.name == "attachment" %}
+            <input 
+            type="file" 
+            name="attachment" 
+            accept=".pdf,.jpg,.jpeg,.png,.doc,.docx,.txt,.zip"
+            class="form-control bg-transparent border-0 shadow-none p-0"
+            onchange="validateAttachment(this)"
+            >
+            <small class="form-text text-muted">
+              Max file size: 25MB. Allowed formats: PDF, JPG, PNG, DOC, DOCX, TXT, ZIP
+            </small>
+            <div id="file-error" class="text-danger mt-1"></div>
+          {% else %}
+            {{ field }}
+          {% endif %}
+          {% for error in field.errors %}
+            <div class="text-danger">{{ error }}</div>
+          {% endfor %}
+        </div>
+      {% endfor %}
+      
+      <div class="mt-3 mb-3">
+        <div 
+          class="g-recaptcha" 
+          data-sitekey="6Le7yIUrAAAAAK-eZFQ3G0C0Xcqlz12lnh3EpSiN" 
+          data-callback="captchaPassed"
+          data-expired-callback="captchaExpired">
+        </div>
+      </div>
+      
+      <button type="submit" class="btn btn-success" id="submit-btn" disabled>Send</button>
+    </form>
+  </div>
+</div>
+
+<!-- Client-side JS validation -->
+<script>
+  const MAX_FILE_SIZE_MB = 24;
+  const ALLOWED_TYPES = [
+    'application/pdf',
+    'image/jpeg',
+    'image/png',
+    'application/msword',
+    'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+    'text/plain',
+    'application/zip',
+    'application/x-zip-compressed'
+  ];
+
+  let captchaValid = false;
+  let fileValid = true;
+
+  function validateAttachment(input) {
+    const file = input.files[0];
+    const errorDiv = document.getElementById('file-error');
+    const submitButton = document.getElementById('submit-btn');
+
+    if (!file) {
+      errorDiv.textContent = '';
+      fileValid = true;
+      updateSubmitButton();
+      return;
+    }
+
+    if (!ALLOWED_TYPES.includes(file.type)) {
+      errorDiv.textContent = '❌ File type not allowed.';
+      fileValid = false;
+    } else if (file.size > MAX_FILE_SIZE_MB * 1024 * 1024) {
+      errorDiv.textContent = '❌ File exceeds 25MB.';
+      fileValid = false;
+    } else {
+      errorDiv.textContent = '';
+      fileValid = true;
+    }
+    
+    updateSubmitButton();
+  }
+
+  function updateSubmitButton() {
+    const submitBtn = document.getElementById('submit-btn');
+    submitBtn.disabled = !(captchaValid && fileValid);
+  }
+
+  function captchaPassed() {
+    captchaValid = true;
+    updateSubmitButton();
+  }
+
+  function captchaExpired() {
+    captchaValid = false;
+    updateSubmitButton();
+  }
+
+  document.addEventListener("DOMContentLoaded", function () {
+    const form = document.getElementById("contact-form");
+    const submitBtn = document.getElementById("submit-btn");
+
+    // Initially disable submit
+    submitBtn.disabled = true;
+
+    form.addEventListener("submit", function (e) {
+      if (!captchaValid) {
+        e.preventDefault();
+        alert("Please complete the CAPTCHA before submitting.");
+        return;
+      }
+      
+      if (!fileValid) {
+        e.preventDefault();
+        alert("Please fix the file attachment issue before submitting.");
+        return;
+      }
+    });
+  });
+</script>
+
+<script src="https://www.google.com/recaptcha/api.js" async defer></script>
+{% endblock %}

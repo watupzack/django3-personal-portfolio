@@ -4,3 +4,8 @@
 __pycache__/
 local_settings.py
 /static/
+django_web_venv/
+.vscode/
+*.swp
+.idea/
+.git/

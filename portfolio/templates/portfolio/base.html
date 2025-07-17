@@ -14,6 +14,8 @@
   <link href="https://fonts.googleapis.com/css?family=Lato&display=swap" rel="stylesheet">
   <title>Maxim Rezan</title>
 </head>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
 <body>
   <nav id="topNav" class="navbar navbar-expand-md navbar-light">
     <div class="container">
@@ -24,17 +26,48 @@
       <div class="collapse navbar-collapse text-center" id="navbarNav">
         <ul class="navbar-nav ml-auto">
           <li class="nav-item">
-            <a class="nav-link" href="{% static 'portfolio/MaximRezanCV.pdf' %}">Resume</a>
+            <a class="nav-link d-flex align-items-center" href="{{ latest_cv.file.url }}" target="_blank">
+              <span>CV</span>
+              <img src="{% static 'portfolio/cv_icon.png' %}" loading="lazy" alt="CV" style="height: 1em; margin-left: 6px;">
+            </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="https://www.instagram.com/maxrezan/" target="_blank">Instagram</a>
+            <a class="nav-link d-flex align-items-center" href="{{ latest_portfolio.file.url }}" target="_blank">
+              <span>Portfolio</span>
+              <img src="{% static 'portfolio/portfolio_icon.png' %}" loading="lazy" alt="Portfolio" style="height: 1em; margin-left: 6px;">
+            </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="https://vk.com/klassniy_perets" target="_blank">VKontakte</a>
+            <a class="nav-link d-flex align-items-center" href="https://github.com/watupzack" target="_blank">
+              <span>GitHub</span>
+              <img src="{% static 'portfolio/github_icon.png' %}" loading="lazy" alt="GitHub" style="height: 1em; margin-left: 6px;">
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link d-flex align-items-center" href="https://www.linkedin.com/in/maxrezan" target="_blank">
+              <span>LinkedIn</span>
+              <img src="{% static 'portfolio/linked_icon.png' %}" loading="lazy" alt="LinkedIn" style="height: 1em; margin-left: 6px;">
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link d-flex align-items-center" href="https://vk.com/klassniy_perets" target="_blank">
+              <span>VK</span>
+              <img src="{% static 'portfolio/vk_icon.svg' %}" loading="lazy" alt="VK" style="height: 1em; margin-left: 6px;">
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link d-flex align-items-center" href="https://www.instagram.com/maxrezan/" target="_blank">
+              <span>Instagram</span>
+              <img src="{% static 'portfolio/insta_icon.png' %}" loading="lazy" alt="Instagram" style="height: 1em; margin-left: 6px;">
+            </a>
           </li>
           <li class="nav-item ">
             <a role="button" href="{% url 'blog:all_blogs' %}" class="btn btn-primary">Blog</a>
           </li>
+          <li class="nav-item">
+            <a role="button" href="{% url 'contact' %}" class="btn btn-success ml-2">Contact me</a>
+          </li>
+
         </ul>
       </div>
     </div>
